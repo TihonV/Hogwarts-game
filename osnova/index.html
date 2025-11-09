@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Школа Чародейства</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1a1a1a">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="styles.css">
+  <!-- Three.js + расширения -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/PointerLockControls.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.min.js"></script>
+  <!-- MathJax -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+  <!-- Вступление -->
+  <div id="startScreen">
+    <h1>Добро пожаловать в Школу Чародейства</h1>
+    <button onclick="startGame()">Начать приключение</button>
+  </div>
+
+  <!-- Распределение -->
+  <div id="sortingHatScreen" style="display: none;">
+    <h2>Распределение по факультетам</h2>
+    <p>Какой предмет тебе больше нравится?</p>
+    <button onclick="answerQuestion(1, 'Когтевран')">Магия</button>
+    <button onclick="answerQuestion(1, 'Слизерин')">Темные искусства</button>
+    <button onclick="answerQuestion(1, 'Пуффендуй')">Зельеварение</button>
+    <button onclick="answerQuestion(1, 'Гриффиндор')">Защита от темных искусств</button>
+  </div>
+
+  <!-- Игровой экран -->
+  <div id="gameContainer" style="display: none;"></div>
+
+  <!-- UI -->
+  <div id="ui" style="display: none;">
+    <div class="hud">
+      <div id="facultyDisplay">Факультет: <span id="facultyName">...</span></div>
+      <div id="timeDisplay">Время: <span id="currentTime">День</span></div>
+      <div id="weatherDisplay">Погода: <span id="currentWeather">Ясно</span></div>
+      <div id="questDisplay">Квест: <span id="currentQuest">Нет активных квестов</span></div>
+    </div>
+    <div id="minimap">Миникарта</div>
+    <div id="inventory">Инвентарь</div>
+  </div>
+
+  <script src="engine/core.js"></script>
+  <script src="engine/renderer.js"></script>
+  <script src="engine/weather.js"></script>
+  <script src="engine/zones.js"></script>
+  <script src="engine/quests.js"></script>
+  <script src="engine/ai-npc.js"></script>
+  <script src="engine/ui.js"></script>
+  <script src="engine/save.js"></script>
+  <script src="engine/google-drive.js"></script>
+  <script>
+    let answers = [];
+    function answerQuestion(round, choice) {
+      answers.push(choice);
+      if (round === 1) {
+        const faculty = choice;
+        chooseFaculty(faculty);
+      }
+    }
+
+    function startGame() {
+      document.getElementById("startScreen").style.display = "none";
+      document.getElementById("sortingHatScreen").style.display = "block";
+    }
+
+    function chooseFaculty(faculty) {
+      console.log("Выбран факультет:", faculty);
+      document.getElementById("sortingHatScreen").style.display = "none";
+      document.getElementById("gameContainer").style.display = "block";
+      document.getElementById("ui").style.display = "block";
+      document.getElementById("facultyName").textContent = faculty;
+
+      initGame(faculty);
+    }
+  </script>
+</body>
+</html>
