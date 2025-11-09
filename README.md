@@ -22,4 +22,4 @@
 
 1. Склонируйте репозиторий:
    ```bash
-   git clone https://github.com/yourname/hogwarts-game.git
+   git clone https://github.com/TihonV/hogwarts-game.git
